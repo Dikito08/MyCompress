@@ -107,7 +107,6 @@ def compress_video_algorithm2(input_file, target_resolution=(480, 270), bitrate=
         # Handle errors
         st.error(f"Error compressing video with Algorithm 2: {e}")
         return None
-
 def home_page():
     st.title("Welcome to MyCompression")
     st.write("""
