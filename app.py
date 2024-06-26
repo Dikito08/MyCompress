@@ -108,8 +108,41 @@ def compress_video_algorithm2(input_file, target_resolution=(480, 270), bitrate=
         st.error(f"Error compressing video with Algorithm 2: {e}")
         return None
 
+def home_page():
+    st.title("Welcome to MyCompression")
+    st.write("""
+    This application allows you to compress audio, image, and video files using different algorithms.
+    Choose a compression type from the sidebar to get started.
+    """)
+
+    st.write("### Audio Compression Algorithms")
+    st.write("""
+    - *Algorithm 1 (FLAC)*: FLAC (Free Lossless Audio Codec) is a popular lossless compression format. It reduces file size without losing any audio data.
+    - *Algorithm 2 (WAV)*: WAV is an uncompressed audio format that preserves the full quality of the original audio, but it doesn't reduce file size significantly.
+    """)
+
+    st.write("### Image Compression Algorithms")
+    st.write("""
+    - *Algorithm 1 (JPEG)*: JPEG is a commonly used method of lossless compression for digital images. The degree of compression can be adjusted, allowing a trade-off between storage size and image quality.
+    - *Algorithm 2 (PNG)*: PNG (Portable Network Graphics) is a lossless compression format suitable for images with text, line art, or where fine detail is important.
+    """)
+
+    st.write("### Video Compression Algorithms")
+    st.write("""
+    - *Algorithm 1 (H.264)*: H.264 is a popular video compression standard known for good video quality at lower bitrates. It is widely supported by most devices and media players.
+    - *Algorithm 2 (HEVC)*: HEVC (High Efficiency Video Coding), also known as H.265, provides better compression efficiency than H.264. It delivers higher quality at the same bitrate or the same quality at a lower bitrate.
+    """)
+
+def format_file_size(size):
+    return f"{size / 1024:.2f} KB"
+
 def audio_compression():
     st.title("Audio Compression")
+    st.sidebar.write("""
+    Choose your preferred compression algorithm:
+    - *FLAC*: Lossless compression, retains full quality.
+    - *WAV*: Uncompressed format, no additional compression.
+    """)
 
     st.sidebar.title("Settings")
     # Tambahkan opsi bitrate jika ingin tetap mempertahankannya
@@ -154,6 +187,11 @@ def audio_compression():
 
 def image_compression():
     st.title("Image Compression")
+    st.sidebar.write("""
+    Choose your preferred compression algorithm:
+    - *JPEG*: Lossless compression, adjustable quality.
+    - *PNG*: Lossless compression, preserves full quality.
+    """)
 
     st.sidebar.title("Settings")
     image_quality = st.sidebar.slider("Select image quality", min_value=1, max_value=100, value=50)
@@ -197,11 +235,16 @@ def image_compression():
 def video_compression():
     st.title("Video Compression")
 
+
     st.sidebar.title("Settings")
     target_resolution = st.sidebar.selectbox("Select resolution", ["480p", "720p", "1080p"])
     resolutions = {"480p": (480, 270), "720p": (1280, 720), "1080p": (1920, 1080)}
     video_bitrate = st.sidebar.selectbox("Select video bitrate", ["500k", "1000k", "1500k", "2000k"])
-
+    st.sidebar.write("""
+    Choose your preferred compression algorithm:
+    - *H.264*: Good video quality at lower bitrates.
+    - *HEVC*: Higher quality at the same bitrate or same quality at a lower bitrate.
+    """)
     st.write("## Upload your video file and compress it!")
 
     video_file = st.file_uploader("Upload a video file", type=["mp4", "mov", "avi"])
@@ -240,6 +283,7 @@ def video_compression():
 
 def multipage():
     pages = {
+        "Home": home_page,
         "Audio Compression": audio_compression,
         "Image Compression": image_compression,
         "Video Compression": video_compression
